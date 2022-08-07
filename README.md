@@ -109,8 +109,20 @@ cp .env.example .env
 php artisan migrate:fresh --seed
 ```
 
+## generate key
+
+```
+php artisan key:generate
+```
+
 ## start serve
 
 ```
 php artisan serve
 ```
+
+## admin login sample
+
+# user: admin@example.com
+
+# pass: password
