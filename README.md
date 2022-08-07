@@ -63,3 +63,37 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # prueba-doofinder
+
+## Install composer packages
+
+```
+composer install
+``` 
+
+## Install node modules
+
+```
+npm install
+``` 
+
+## generate build
+
+```
+npm run build
+``` 
+
+## generate .env file from .env-example
+
+```
+cp .env-example .env
+``` 
+
+## create the data base
+
+## check database connection details
+
+## generate migrations
+
+```
+php artisan migration:fresh --seed
+```
