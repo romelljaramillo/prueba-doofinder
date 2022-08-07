@@ -93,10 +93,10 @@ npm install
 npm run build
 ``` 
 
-## generate .env file from .env-example
+## generate .env file from .env.example
 
 ```
-cp .env-example .env
+cp .env.example .env
 ``` 
 
 ## create the data base
@@ -106,5 +106,11 @@ cp .env-example .env
 ## generate migrations
 
 ```
-php artisan migration:fresh --seed
+php artisan migrate:fresh --seed
+```
+
+## start serve
+
+```
+php artisan serve
 ```

@@ -40,8 +40,13 @@ class ProductFactory extends Factory
      * @param string $text
      * @return string
      */
-    public function generateImage($dir = null, $width = 640, $height = 480, $text = '')
+    public function generateImage($path = null, $width = 640, $height = 480, $text = '')
     {
+
+        if ( !file_exists($path) ) {
+            mkdir($path, 0777, true);
+        }
+
         header("Content-type: image/png");
 
         $im = imagecreate($width, $height);
@@ -66,7 +71,7 @@ class ProductFactory extends Factory
 
         $nameimage = str_replace(" ", "_", $text) . '.png';
 
-        imagepng($im, $dir . '/' . $nameimage);
+        imagepng($im, $path . '/' . $nameimage);
 
         ImageDestroy($im);
 
