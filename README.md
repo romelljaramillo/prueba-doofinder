@@ -123,6 +123,6 @@ php artisan serve
 
 ## admin login sample
 
-# user: admin@example.com
+user: admin@example.com
 
-# pass: password
+pass: password
