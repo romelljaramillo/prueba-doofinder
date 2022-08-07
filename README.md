@@ -64,6 +64,17 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 # prueba-doofinder
 
+## download repository
+
+```
+git clone https://github.com/romelljaramillo/prueba-doofinder.git
+```
+## enter the directory
+
+```
+cd prueba-doofinder
+``` 
+
 ## Install composer packages
 
 ```
