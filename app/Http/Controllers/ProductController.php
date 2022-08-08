@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
-use App\Models\Product;
-use App\Http\Requests\ProductRequest;
-use App\Models\Category;
 
 class ProductController extends Controller
 {
@@ -19,7 +19,7 @@ class ProductController extends Controller
     public function index()
     {
         return view('products.index', [
-            'products' => Product::latest()->paginate()
+            'products' => Product::latest()->paginate(),
         ]);
     }
 
@@ -31,8 +31,8 @@ class ProductController extends Controller
     public function create(Product $product)
     {
         return view('products.create', [
-            'product' => $product, 
-            'categories' => Category::all()
+            'product' => $product,
+            'categories' => Category::all(),
         ]);
     }
 
@@ -45,18 +45,18 @@ class ProductController extends Controller
     public function store(ProductRequest $request)
     {
 
-        if($request->hasFile("image")){
+        if ($request->hasFile("image")) {
             $nameimage = '';
             $path = public_path("storage\img\p");
 
-            if ( ! file_exists($path) ) {
+            if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
 
             $file = $request->file("image");
-            $nameimage = uniqid() . '_' . Str::slug($request->title).".".$file->guessExtension();
+            $nameimage = uniqid() . '_' . Str::slug($request->title) . "." . $file->guessExtension();
 
-            $file->move($path,$nameimage);
+            $file->move($path, $nameimage);
         }
 
         $product = $request->user()->product()->create([
@@ -70,10 +70,10 @@ class ProductController extends Controller
             'isbn' => $request->isbn,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'active' => $request->active ? 1 : 0
+            'active' => $request->active ? 1 : 0,
         ]);
 
-        return redirect()->route('products.edit', $product);
+        return to_route('products.edit', $product)->with('status', 'Create');
     }
 
     /**
@@ -97,8 +97,8 @@ class ProductController extends Controller
     {
 
         return view('products.edit', [
-            'product' => $product, 
-            'categories' => Category::all()
+            'product' => $product,
+            'categories' => Category::all(),
         ]);
     }
 
@@ -112,18 +112,18 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         // $product->update($request->all());
-        if($request->hasFile("image")){
+        if ($request->hasFile("image")) {
             $nameimage = '';
             $path = public_path("storage\img\p");
 
-            if ( ! file_exists($path) ) {
+            if (!file_exists($path)) {
                 mkdir($path, 0777, true);
             }
 
             $file = $request->file("image");
-            $nameimage = uniqid() . '_' . Str::slug($request->title).".".$file->guessExtension();
+            $nameimage = uniqid() . '_' . Str::slug($request->title) . "." . $file->guessExtension();
 
-            $file->move($path,$nameimage);
+            $file->move($path, $nameimage);
 
             $product->image = $nameimage;
         }
@@ -138,7 +138,7 @@ class ProductController extends Controller
             'isbn' => $request->isbn,
             'price' => $request->price,
             'quantity' => $request->quantity,
-            'active' => $request->active ? 1 : 0
+            'active' => $request->active ? 1 : 0,
         ]);
 
         return to_route('products.edit', $product)->with('status', 'Update');
