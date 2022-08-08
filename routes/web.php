@@ -19,8 +19,14 @@ use App\Http\Controllers\PageController;
 
 Route::controller(PageController::class)->group(function () {     
     Route::get('/', 'index')->name('home');
-    Route::get('product/{product:id}', 'product')->name('product');
+    // Route::get('product/{id}', 'product')->name('product');
 });
+
+Route::get(
+    'product/{product}',
+    [ProductController::class, 'show']
+)->name('product');
+
 
 Route::middleware([
     'auth:sanctum',

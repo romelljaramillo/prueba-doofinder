@@ -16,12 +16,22 @@
                         @foreach($categories as $category)
                         <tr class="border-b border-gray-200 text-sm">
                             <td class="px-6 py-4">{{ $category->id }}</td>
+                            <td class="px-6 py-4">
+                                <img class="h-10" src="@if(file_exists(public_path('storage/img/c/'.$category->image))){{asset('storage/img/c/'.$category->image)}}@else{{asset('images/no-image.jpg')}}@endif" 
+                                alt="{{ $category->name }}">
+                            </td>
                             <td class="px-6 py-4">{{ $category->name }}</td>
                             <td class="px-6 py-4">
                                 @if ($category->active)
-                                    <svg class="text-green-500 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <svg class="text-green-500 w-6 h-6" fill="none" stroke="currentColor" 
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
                                 @else
-                                    <svg class="text-red-500 w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                    <svg class="text-red-500 w-6 h-6" fill="none" stroke="currentColor" 
+                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
                                 @endif
                             </td>
                             <td class="px-6 py-4">{{ $category->created_at->format('d-m-Y') }}</td>

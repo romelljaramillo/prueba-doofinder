@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryRequest;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
@@ -24,9 +26,12 @@ class CategoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Category $category)
     {
-        //
+        return view('categories.create', [
+            'category' => $category,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -35,9 +40,32 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request, Category $category)
     {
-        //
+        if ($request->hasFile("image")) {
+            $nameimage = '';
+            $path = public_path("storage\img\c");
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $file = $request->file("image");
+            $nameimage = uniqid() . '_' . Str::slug($request->name) . "." . $file->guessExtension();
+
+            $file->move($path, $nameimage);
+        }
+
+        $category = $category->create([
+            'parent_id' => $request->parent_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $nameimage,
+            'link_rewrite' => Str::slug($request->name),
+            'active' => $request->active ? 1 : 0
+        ]);
+
+        return to_route('categories.edit', $category)->with('status', 'Create');
     }
 
     /**
@@ -59,7 +87,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('categories.edit', [
+            'category' => $category,
+            'categories' => Category::all()
+        ]);
     }
 
     /**
@@ -71,7 +102,31 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        if ($request->hasFile("image")) {
+            $nameimage = '';
+            $path = public_path("storage\img\c");
+
+            if (!file_exists($path)) {
+                mkdir($path, 0777, true);
+            }
+
+            $file = $request->file("image");
+            $nameimage = uniqid() . '_' . Str::slug($request->name) . "." . $file->guessExtension();
+
+            $file->move($path, $nameimage);
+
+            $category->image = $nameimage;
+        }
+
+        $category->update([
+            'parent_id' => $request->parent_id,
+            'name' => $request->name,
+            'description' => $request->description,
+            'link_rewrite' => Str::slug($request->name),
+            'active' => $request->active ? 1 : 0
+        ]);
+
+        return to_route('categories.edit', $category)->with('status', 'Update');
     }
 
     /**
@@ -82,6 +137,8 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        return back();
     }
 }
